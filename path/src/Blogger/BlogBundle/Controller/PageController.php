@@ -28,7 +28,7 @@ class PageController extends Controller
 
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 // realiza alguna acción, como enviar un correo electrónico
