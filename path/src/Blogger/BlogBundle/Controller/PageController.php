@@ -32,11 +32,22 @@ class PageController extends Controller
 
             if ($form->isValid()) {
                 // realiza alguna acción, como enviar un correo electrónico
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Contact enquiry from symblog')
+                    ->setFrom('enquiries@symblog.co.uk')
+                    ->setTo('luis.mori@glr.pe')
+                    ->setBody($this->renderView('BloggerBlogBundle:Page:contactEmail.txt.twig', array('enquiry' => $enquiry)));
+                $this->get('mailer')->send($message);
+
+                $this->get('session')->setFlash('blogger-notice', 'Your contact enquiry was successfully sent. Thank you!');
 
                 // Redirige - Esto es importante para prevenir que el usuario
                 // reenvíe el formulario si actualiza la página
                 return $this->redirect($this->generateUrl('BloggerBlogBundle_contact'));
-            }
+
+
+
+                }
         }
 
         return $this->render('BloggerBlogBundle:Page:contact.html.twig', array(
